@@ -8,7 +8,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/jdeng/goheif"
+	"github.com/tada-team/goheif"
 )
 
 // Skip Writer for exif writing
