@@ -415,7 +415,8 @@ int  decode_CABAC_TR_bypass(CABAC_decoder* decoder, int cRiceParam, int cTRMax)
   return (prefix << cRiceParam) | suffix;
 }
 
-static const int cabac_max_prefix = 32;
+
+#define CABAC_MAX_PREFIX 32
 
 int  decode_CABAC_EGk_bypass(CABAC_decoder* decoder, int k)
 {
@@ -432,7 +433,7 @@ int  decode_CABAC_EGk_bypass(CABAC_decoder* decoder, int k)
         n++;
       }
 
-      if (n == k+cabac_max_prefix) {
+      if (n == k+CABAC_MAX_PREFIX) {
         return 0; // TODO: error
       }
     }

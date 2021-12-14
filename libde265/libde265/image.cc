@@ -20,6 +20,7 @@
 
 #include "image.h"
 #include "decctx.h"
+#include "en265.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -312,7 +313,7 @@ de265_error de265_image::alloc_image(int w,int h, enum de265_chroma c,
     break;
   }
 
-  if (sps) {
+  if (chroma_format != de265_chroma_mono && sps) {
     assert(sps->SubWidthC  == SubWidthC);
     assert(sps->SubHeightC == SubHeightC);
   }
@@ -385,9 +386,15 @@ de265_error de265_image::alloc_image(int w,int h, enum de265_chroma c,
                                                               alloc_userdata);
 
     pixels_confwin[0] = pixels[0] + left*WinUnitX + top*WinUnitY*stride;
-    pixels_confwin[1] = pixels[1] + left + top*chroma_stride;
-    pixels_confwin[2] = pixels[2] + left + top*chroma_stride;
 
+    if (chroma_format != de265_chroma_mono) {
+      pixels_confwin[1] = pixels[1] + left + top*chroma_stride;
+      pixels_confwin[2] = pixels[2] + left + top*chroma_stride;
+    }
+    else {
+      pixels_confwin[1] = NULL;
+      pixels_confwin[2] = NULL;
+    }
 
     // check for memory shortage
 
